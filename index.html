@@ -26,17 +26,35 @@
         map.fitBounds(bounds)
         var marker_group = L.featureGroup().addTo(map)
 
-        async function GetGeoData(url) {
-            const response = await fetch(url);
-            let unparsed = await response.text();
-            let data = await JSON.parse(unparsed);
-            for (let x of data.stations){
-                L.circleMarker([x[1],x[0]],{radius: 5,fillColor: '#1864d6',color: '#ffffff', weight: 1.5,fillOpacity: 0.9
-            }).addTo(marker_group);
- 
+async function GetGeoData(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok){
+            throw new Error(`HTTP error!, Status: ${response.status} `)
 
-        };
-        };
+        }
+
+        let unparsed = await response.text();
+        let data = await JSON.parse(unparsed);
+        for (let x of data.stations){
+            L.circleMarker([x[1],x[0]],{radius: 5,
+                fillColor: '#1864d6',
+                color: '#ffffff',
+                weight: 1.5,
+                fillOpacity: 0.9
+        }).addTo(marker_group);} 
+    }
+
+    catch (error){
+        console.error('Failed to get data: ',error.message);
+
+    }
+
+}  
+
+    
+
+        
 
 
 
@@ -49,7 +67,6 @@
 
         }).addTo(map);
 
-        //L.marker([52.8895, -8.9960]).addTo(map);
         map.on('moveend',function(){
             marker_group.clearLayers()
             let southwest = Object.values(map.getBounds().getSouthWest())
