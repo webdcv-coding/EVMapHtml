@@ -38,14 +38,22 @@
 <body>
       <div id="map"></div>
     <script>
-        
-        var map = L.map('map').setView([53.5000, -8.0000], 7);  
 
+        let init_zoom_level
+        if (L.Browser.mobile){
+            init_zoom_level = 5
+
+
+        }else{
+
+            init_zoom_level = 7
+        }
+        var map = L.map('map').setView([53.5000, -8.0000], init_zoom_level);  
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">Sourced From OSM</a>',
             noWrap : true,
-            minZoom : 7
+            minZoom : init_zoom_level
   
 
         }).addTo(map);
@@ -60,6 +68,7 @@
         map.setMaxBounds(bounds)
         map.fitBounds(bounds)
         var marker_group = L.featureGroup().addTo(map)
+        
 
 async function GetGeoData(url) {
     try {
