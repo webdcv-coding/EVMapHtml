@@ -41,6 +41,18 @@
         
         var map = L.map('map').setView([53.5000, -8.0000], 8);  
 
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">Sourced From OSM</a>',
+            noWrap : true,
+            minZoom : 7
+  
+
+        }).addTo(map);
+
+
+
+
         
         let southWest = L.latLng(51.155921,-11.072084)
         let northEast = L.latLng(55.452695,-5.851246)
@@ -83,14 +95,7 @@ async function GetGeoData(url) {
 
 
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">Sourced From OSM</a>',
-            noWrap : true,
-            minZoom : 7
-  
-
-        }).addTo(map);
+        
 
         map.on('moveend',function(){
             let southwest = Object.values(map.getBounds().getSouthWest())
